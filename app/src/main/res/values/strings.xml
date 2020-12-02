@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EmployeeApplication</string>
+    <string name="load_fail">Load employee data failed!</string>
+    <string name="nothing_to_show">Nothing to show ¯\_(ツ)_/¯ </string>
+</resources>

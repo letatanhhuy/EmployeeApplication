@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageEmployee"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2"
+        tools:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/txtEmployeeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_page"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/txtEmployeeTeam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageEmployee"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        tools:text="Name can very very very very very very very very very very very very very very long" />
+
+    <TextView
+        android:id="@+id/txtEmployeeTeam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_page"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/txtEmployeeEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageEmployee"
+        app:layout_constraintTop_toBottomOf="@id/txtEmployeeName"
+        tools:text="description can very very very very very very very very very very very very very very long" />
+    />
+
+    <TextView
+        android:id="@+id/txtEmployeeEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_page"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageEmployee"
+        app:layout_constraintTop_toBottomOf="@id/txtEmployeeTeam"
+        tools:text="email"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
