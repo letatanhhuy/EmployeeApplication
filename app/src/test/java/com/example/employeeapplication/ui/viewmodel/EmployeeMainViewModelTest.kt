@@ -1,7 +1,7 @@
 package com.example.employeeapplication.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.example.employeeapplication.data.EmployeeRepo
+import com.example.employeeapplication.repo.EmployeeRepo
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.model.EmployeeResponse
 import com.example.employeeapplication.model.TYPE

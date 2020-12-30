@@ -1,5 +1,6 @@
 package com.example.employeeapplication.model
 
+import androidx.room.TypeConverter
 import com.google.gson.annotations.SerializedName
 
 
@@ -29,10 +30,27 @@ data class Employee(
     val type: TYPE
 )
 
-enum class TYPE(name: String) {
-    FULL_TIME("FullTime"),
-    PART_TIME("PartTime"),
-    CONTRACTOR("Contractor")
+enum class TYPE(name: String, val index: Int) {
+    FULL_TIME("FullTime", 0),
+    PART_TIME("PartTime", 1),
+    CONTRACTOR("Contractor", 2)
+}
+
+class TypeConverters {
+    @TypeConverter
+    fun fromTypeToInt(value: TYPE): Int {
+        return value.index
+    }
+
+    @TypeConverter
+    fun fromIntToType(value: Int): TYPE {
+        return when (value) {
+            TYPE.FULL_TIME.index -> TYPE.FULL_TIME
+            TYPE.PART_TIME.index -> TYPE.PART_TIME
+            TYPE.CONTRACTOR.index -> TYPE.CONTRACTOR
+            else -> TYPE.FULL_TIME
+        }
+    }
 }
 
 class EmployeeComparatorByName : Comparator<Employee> {

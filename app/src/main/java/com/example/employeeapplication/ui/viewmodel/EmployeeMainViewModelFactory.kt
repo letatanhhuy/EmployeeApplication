@@ -2,8 +2,7 @@ package com.example.employeeapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.employeeapplication.data.EmployeeRepo
-import com.example.employeeapplication.network.EmployeeApi
+import com.example.employeeapplication.repo.EmployeeRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

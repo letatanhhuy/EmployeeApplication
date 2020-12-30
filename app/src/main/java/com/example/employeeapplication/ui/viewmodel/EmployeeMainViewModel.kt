@@ -2,14 +2,12 @@ package com.example.employeeapplication.ui.viewmodel
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.employeeapplication.data.EmployeeRepo
+import com.example.employeeapplication.repo.EmployeeRepo
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.model.EmployeeComparatorByName
-import com.google.gson.JsonParseException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +55,8 @@ class EmployeeMainViewModel(
                 Collections.sort(employeeList, EmployeeComparatorByName())
                 _employeesLiveData.postValue(employeeList)
             }.onFailure {
-                Log.e(TAG, "get data failed with error: ${it.message}")
+                Log.e(TAG, "get data failed with error message: ${it.message}")
+                Log.e(TAG, "get data failed with error stack trace: ${it.printStackTrace()}")
                 _loadingData.postValue(false)
                 _showError.postValue(true)
                 _employeesLiveData.postValue(emptyList())
