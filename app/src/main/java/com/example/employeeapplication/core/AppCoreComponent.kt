@@ -1,6 +1,9 @@
 package com.example.employeeapplication.core
 
 import android.content.Context
+import android.content.SharedPreferences
+import com.example.employeeapplication.cache.EmployeeCache
+import com.example.employeeapplication.cache.EmployeeCacheSharedPreferences
 import com.example.employeeapplication.data.EmployeeRepo
 import com.example.employeeapplication.model.AnnotatedDeserializer
 import com.example.employeeapplication.model.Employee
@@ -30,24 +33,35 @@ class AppCoreComponent(private val context: Context) {
             .create(EmployeeApi::class.java)
     }
 
-    private val employeeRepo: EmployeeRepo by lazy {
-        EmployeeRepo(employeeApi)
+    private val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences(SP_EMPLOYEES, Context.MODE_PRIVATE)
     }
+
+    private val employeeCache: EmployeeCache by lazy {
+        EmployeeCacheSharedPreferences(getApplicationSharedPreferences(), getApplicationGSON())
+    }
+
+    private val employeeRepo: EmployeeRepo by lazy {
+        EmployeeRepo(employeeApi, employeeCache)
+    }
+
+
 
     private val gson: Gson by lazy {
         GsonBuilder()
             .registerTypeAdapter(Employee::class.java, AnnotatedDeserializer<Employee>())
             .create()
-
     }
 
     fun getApplicationGSON(): Gson = gson
     fun getApplicationEmployeeApi(): EmployeeApi = employeeApi
+    fun getApplicationSharedPreferences(): SharedPreferences = sharedPreferences
     fun getApplicationEmployeeRepo(): EmployeeRepo = employeeRepo
 
     companion object {
         private const val MAX_CONNECTION_TIME = 30L
         private const val MAX_READ_TIME = 30L
         private const val BASE_URL = "https://s3.amazonaws.com/sq-mobile-interview/"
+        private const val SP_EMPLOYEES = "employees"
     }
 }

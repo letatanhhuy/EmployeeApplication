@@ -49,7 +49,7 @@ class EmployeeMainViewModel(
                 _showError.postValue(false)
                 employeeRepo.getAllEmployee()
             }.onSuccess { employeeList ->
-                Log.d(TAG, "get employee list succeed")
+                Log.d(TAG, "get employee list result")
                 employeeList.forEach {
                     Log.d(TAG, "$it")
                 }
