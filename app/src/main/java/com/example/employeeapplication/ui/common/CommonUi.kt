@@ -9,9 +9,8 @@ fun AppCompatActivity.switchView(viewId: Int, fragment: Fragment, addToBackStack
         replace(viewId, fragment, fragment.toString())
         if (addToBackStack) {
             addToBackStack(null)
-            commit()
         }
-        commitNow()
+        commit()
     }
 }
 

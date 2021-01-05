@@ -15,6 +15,7 @@ import com.example.employeeapplication.core.getCoreComponent
 import com.example.employeeapplication.data.EmployeeRepo
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.ui.adapter.EmployeeViewAdapter
+import com.example.employeeapplication.ui.common.switchView
 import com.example.employeeapplication.ui.viewmodel.EmployeeMainViewModel
 import com.example.employeeapplication.ui.viewmodel.EmployeeMainViewModelFactory
 import kotlinx.android.synthetic.main.employee_list_view.*
@@ -51,7 +52,16 @@ class EmployeeMainViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        employeeViewAdapter = EmployeeViewAdapter()
+        employeeViewAdapter = EmployeeViewAdapter {
+            val index = recyclerViewEmployee.getChildAdapterPosition(it)
+            val clickedEmployee = employeeList[index]
+            val detailsViewFragment = EmployeeDetailsViewFragment()
+            val bundle = Bundle()
+            val gson = getCoreComponent().getApplicationGSON()
+            bundle.putString(EMPLOYEE_DETAILS_TAG, gson.toJson(clickedEmployee))
+            detailsViewFragment.arguments = bundle
+            switchView(R.id.mainFrame, detailsViewFragment)
+        }
 
         view.recyclerViewEmployee.apply {
             val mainLayoutManager = LinearLayoutManager(this.context)
@@ -96,5 +106,6 @@ class EmployeeMainViewFragment : Fragment() {
 
     companion object {
         private const val TAG = "EA:UI:EMF"
+        const val EMPLOYEE_DETAILS_TAG = "employee_details"
     }
 }
