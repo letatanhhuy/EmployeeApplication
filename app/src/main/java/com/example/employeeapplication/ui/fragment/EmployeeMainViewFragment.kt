@@ -33,7 +33,7 @@ class EmployeeMainViewFragment : Fragment() {
         super.onCreate(savedInstanceState)
         employeeMainViewModel = ViewModelProvider(
             this,
-            EmployeeMainViewModelFactory(EmployeeRepo(getCoreComponent().getApplicationEmployeeApi()))
+            EmployeeMainViewModelFactory(getCoreComponent().getApplicationEmployeeRepo())
         ).get(EmployeeMainViewModel::class.java)
 
         if (savedInstanceState == null) {

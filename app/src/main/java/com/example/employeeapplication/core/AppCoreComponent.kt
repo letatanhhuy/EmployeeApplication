@@ -2,6 +2,7 @@ package com.example.employeeapplication.core
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.employeeapplication.data.EmployeeRepo
 import com.example.employeeapplication.model.AnnotatedDeserializer
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.network.EmployeeApi
@@ -31,6 +32,11 @@ class AppCoreComponent() {
             .create(EmployeeApi::class.java)
     }
 
+    private val employeeRepo: EmployeeRepo by lazy {
+        EmployeeRepo(employeeApi)
+    }
+
+
     private val gson: Gson by lazy {
         GsonBuilder()
             .registerTypeAdapter(Employee::class.java, AnnotatedDeserializer<Employee>())
@@ -40,6 +46,7 @@ class AppCoreComponent() {
 
     fun getApplicationGSON(): Gson = gson
     fun getApplicationEmployeeApi(): EmployeeApi = employeeApi
+    fun getApplicationEmployeeRepo(): EmployeeRepo = employeeRepo
 
     companion object {
         private const val MAX_CONNECTION_TIME = 30L
