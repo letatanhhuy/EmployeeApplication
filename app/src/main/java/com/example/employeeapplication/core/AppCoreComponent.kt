@@ -2,6 +2,8 @@ package com.example.employeeapplication.core
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.employeeapplication.cache.EmployeeCache
+import com.example.employeeapplication.cache.EmployeeCacheSharedPreferences
 import com.example.employeeapplication.data.EmployeeRepo
 import com.example.employeeapplication.model.AnnotatedDeserializer
 import com.example.employeeapplication.model.Employee
@@ -14,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class AppCoreComponent() {
+class AppCoreComponent(private val context: Context) {
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder().apply {
@@ -32,8 +34,16 @@ class AppCoreComponent() {
             .create(EmployeeApi::class.java)
     }
 
+    private val sharedPreferences:SharedPreferences by lazy {
+        context.getSharedPreferences(EMPLOYEE_SP, Context.MODE_PRIVATE)
+    }
+
     private val employeeRepo: EmployeeRepo by lazy {
-        EmployeeRepo(employeeApi)
+        EmployeeRepo(getApplicationEmployeeApi(), getApplicationEmployeeCache())
+    }
+
+    private val employeeCache: EmployeeCache by lazy {
+        EmployeeCacheSharedPreferences(getApplicationSharedPreferences(), getApplicationGSON())
     }
 
 
@@ -47,10 +57,14 @@ class AppCoreComponent() {
     fun getApplicationGSON(): Gson = gson
     fun getApplicationEmployeeApi(): EmployeeApi = employeeApi
     fun getApplicationEmployeeRepo(): EmployeeRepo = employeeRepo
+    fun getApplicationSharedPreferences(): SharedPreferences = sharedPreferences
+    fun getApplicationEmployeeCache(): EmployeeCache = employeeCache
+
 
     companion object {
         private const val MAX_CONNECTION_TIME = 30L
         private const val MAX_READ_TIME = 30L
         private const val BASE_URL = "https://s3.amazonaws.com/sq-mobile-interview/"
+        private const val EMPLOYEE_SP = "employees_sp"
     }
 }

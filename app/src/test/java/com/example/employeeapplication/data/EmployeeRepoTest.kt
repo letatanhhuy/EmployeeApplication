@@ -1,5 +1,6 @@
 package com.example.employeeapplication.data
 
+import com.example.employeeapplication.cache.EmployeeCache
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.model.EmployeeResponse
 import com.example.employeeapplication.model.TYPE
@@ -17,6 +18,8 @@ import org.mockito.MockitoAnnotations
 class EmployeeRepoTest {
     @Mock
     private lateinit var employeeApi: EmployeeApi
+    @Mock
+    private lateinit var employeeCache: EmployeeCache
 
     private val uuid = "0d8fcc12-4d0c-425c-8355-390b312b909c"
     private val name = "Justine Mason"
@@ -45,10 +48,11 @@ class EmployeeRepoTest {
     @ExperimentalCoroutinesApi
     @Test
     fun test_EmployeeRepo_getAllEmployees() {
-        val employeeRepo = EmployeeRepo(employeeApi)
+        val employeeRepo = EmployeeRepo(employeeApi, employeeCache)
         runBlockingTest {
             val response = employeeRepo.getAllEmployee()
             Mockito.verify(employeeApi, Mockito.times(1)).getAllEmployees()
+            Mockito.verify(employeeCache, Mockito.times(1)).saveAllEmployee(Mockito.anyList())
             Truth.assertThat(response).isEqualTo(employeeResponse.employeeList)
         }
     }
