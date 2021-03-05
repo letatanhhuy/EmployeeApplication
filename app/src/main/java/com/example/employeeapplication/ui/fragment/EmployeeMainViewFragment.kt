@@ -1,6 +1,7 @@
 package com.example.employeeapplication.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.employeeapplication.core.getCoreComponent
 import com.example.employeeapplication.data.EmployeeRepo
 import com.example.employeeapplication.model.Employee
 import com.example.employeeapplication.ui.adapter.EmployeeViewAdapter
+import com.example.employeeapplication.ui.common.switchView
 import com.example.employeeapplication.ui.viewmodel.EmployeeMainViewModel
 import com.example.employeeapplication.ui.viewmodel.EmployeeMainViewModelFactory
 import kotlinx.android.synthetic.main.employee_list_view.*
@@ -51,7 +53,16 @@ class EmployeeMainViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        employeeViewAdapter = EmployeeViewAdapter()
+        employeeViewAdapter = EmployeeViewAdapter {
+            val index = recyclerViewEmployee.getChildAdapterPosition(it)
+            val clickedEmployee = employeeList[index]
+            val detailsViewFragment = EmployeeDetailsViewFragment()
+            val bundle = Bundle()
+            bundle.putString(TAG_CLICK_EMPLOYEE, getCoreComponent().getApplicationGSON().toJson(clickedEmployee))
+            detailsViewFragment.arguments = bundle
+            Log.d(TAG, "click on a row: ${clickedEmployee.name}")
+            switchView(R.id.mainFrame, detailsViewFragment)
+        }
 
         view.recyclerViewEmployee.apply {
             val mainLayoutManager = LinearLayoutManager(this.context)
@@ -96,5 +107,6 @@ class EmployeeMainViewFragment : Fragment() {
 
     companion object {
         private const val TAG = "EA:UI:EMF"
+        const val TAG_CLICK_EMPLOYEE = "click_employee"
     }
 }

@@ -10,7 +10,7 @@ import com.example.employeeapplication.R
 import com.example.employeeapplication.model.Employee
 import kotlinx.android.synthetic.main.employee_row_view.view.*
 
-class EmployeeViewAdapter : RecyclerView.Adapter<EmployeeViewAdapter.EmployeeViewHolder>() {
+class EmployeeViewAdapter(private val onClickListener: View.OnClickListener) : RecyclerView.Adapter<EmployeeViewAdapter.EmployeeViewHolder>() {
 
     inner class EmployeeViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -40,6 +40,8 @@ class EmployeeViewAdapter : RecyclerView.Adapter<EmployeeViewAdapter.EmployeeVie
         holder.itemView.txtEmployeeName.text = employeeList[position].name
         holder.itemView.txtEmployeeTeam.text = employeeList[position].team
         holder.itemView.txtEmployeeEmail.text = employeeList[position].email
+
+        holder.itemView.setOnClickListener(onClickListener)
     }
 
     companion object {
